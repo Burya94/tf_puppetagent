@@ -1,33 +1,34 @@
 data "aws_ami" "centos7"{
   most_recent = true
 
-  filter{
+  filter {
     name  = "name"
     values = ["RHEL-7.3_HVM-20170613-x86_64*"]
   }
 
-  filter{
+  filter {
     name  = "virtualization-type"
     values = ["hvm"]
   }
 }
 
-resource "aws_instance" "puppetserver" {
+data "template_file" "userdata" {
+  template = "${file("${path.module}/${var.path_to_file}")}"
+
+  vars {
+    dns_name = "${var.puppetmaster_dns}"
+  }
+}
+
+resource "aws_instance" "puppetagent" {
   count             = 1
   key_name          = "${var.key_name}"
   ami               = "${data.aws_ami.centos7.id}"
   instance_type     = "${var.instype}"
-  user_data         = "${file("${path.module}/${var.path_to_file}")}"
-  user_data         = <<-EOF
-                        #!/bin/bash
-                        cat >>/etc/puppetlabs/puppet/puppet.conf << EOF
-                        [main]
-                        server = "${var.puppetmaster_dns}"
-                        EOF
-                        EOF
+  user_data         = "${data.template_file.userdata.rendered}"
   subnet_id         = "${var.subnet_id}"
 
   tags {
-    Name = "Puppet Master"
+    Name = "Puppet Agent"
   }
 }
