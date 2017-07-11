@@ -28,7 +28,7 @@ resource "aws_instance" "puppetagent" {
   instance_type               = "${var.instype}"
   user_data                   = "${data.template_file.userdata.rendered}"
   subnet_id                   = "${var.subnet_id}"
-  associate_public_ip_address = "${var.pub_ip}"
+  associate_public_ip_address = true
 
   tags {
     Name = "Puppet Agent"

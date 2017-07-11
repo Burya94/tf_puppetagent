@@ -4,5 +4,4 @@ variable "instype" {}
 variable "path_to_file" { default = "./puppetagent.sh"}
 variable "subnet_id" {}
 variable "puppetmaster_dns" {}
-variable "pub_ip" { default = true }
 variable "env" {}
