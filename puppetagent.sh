@@ -6,6 +6,6 @@ yum -y install puppet-agent
 cat >> /etc/puppetlabs/puppet/puppet.conf << EOF
 [main]
 server = ${dns_name}
+environment = ${env}
 EOF
 systemctl start puppet
-puppet agent -t
