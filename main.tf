@@ -16,8 +16,9 @@ data "template_file" "userdata" {
   template = "${file("${path.module}/${var.path_to_file}")}"
 
   vars {
-    dns_name = "${var.puppetmaster_dns}"
-    environment      = "${var.environment}"
+    dns_name    = "${var.puppetmaster_dns}"
+    environment = "${var.environment}"
+    puppet_ip   = "${var.puppet_ip}"
   }
 }
 
