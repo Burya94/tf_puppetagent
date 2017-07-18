@@ -11,3 +11,12 @@ cat >> /etc/hosts << EOF
 ${puppet_ip} ${dns_name}
 EOF
 systemctl start puppet
+#add  role
+cat >> /root/role.rb << EOF
+Facter.add(:role) do
+  setcode do
+    'role'
+  end
+end
+EOF
+export FACTERLIB=/root/:
