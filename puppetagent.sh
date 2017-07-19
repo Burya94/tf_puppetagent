@@ -15,8 +15,8 @@ systemctl start puppet
 cat >> /root/role.rb << EOF
 Facter.add(:role) do
   setcode do
-    'role'
+    'puppet_Agent'
   end
 end
 EOF
-export FACTERLIB=/root/:
+echo "export FACTERLIB=/root/" >> /root/.bash_profile
